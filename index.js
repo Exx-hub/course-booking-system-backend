@@ -10,8 +10,6 @@ app.use(express.json());
 // Application routes
 const userRoutes = require("./routes/userRoutes");
 
-console.log(userRoutes);
-
 /* Use Application routes
  * ---app.use(path,routeObject)---
  * take everything that has to do with '/api/users' put it in a separate folder
