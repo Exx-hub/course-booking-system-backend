@@ -6,12 +6,18 @@ const router = express.Router();
 // import controller export
 const userController = require("../controllers/userController");
 
+// console.log(userController);
+// export object from module.exports of specific path / file
+
 // ---Primary user routes---
 // root route: /api/users
 
 // ***Create a new user*****
 
 router.post("/register", userController.register);
+
+// ***Check if user exists***
+router.get("/email-exists", userController.checkEmail);
 
 // Retrieve all users
 // router.get("/userList", (req, res) => {

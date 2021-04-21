@@ -5,13 +5,9 @@ const bcrypt = require("bcrypt"); // used to encrpyt data like passwords
 // CREATE A USER
 
 const register = (req, res) => {
-	const {
-		firstName,
-		lastName,
-		password,
-		emailAddress,
-		mobileNumber,
-	} = req.body;
+	let { firstName, lastName, password, emailAddress, mobileNumber } = req.body;
+
+	password = bcrypt.hashSync(password, 10);
 
 	let newUser = new User({
 		firstName,
@@ -35,6 +31,25 @@ const register = (req, res) => {
 	});
 };
 
+// CHECK IF USER / EMAIL ALREADY EXISTS
+const checkEmail = (req, res) => {
+	const emailObj = { emailAddress: req.body.emailAddress };
+
+	User.find(emailObj, (err, foundArray) => {
+		if (foundArray.length > 0) {
+			res.json({
+				message: "Email already exists",
+				data: true,
+			});
+		} else {
+			res.json({
+				message: "Your email is available.",
+				data: false,
+			});
+		}
+	});
+};
+
 // Retrieve all users
 
 // Retrieve specific user by Id
@@ -45,4 +60,5 @@ const register = (req, res) => {
 
 module.exports = {
 	register,
+	checkEmail,
 };
