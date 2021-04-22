@@ -51,7 +51,41 @@ const checkEmail = (req, res) => {
 };
 
 // check if user is already registered
-const login = (req, res) => {};
+const login = (req, res) => {
+	// console.log(req.body);
+
+	const email = req.body.emailAddress;
+	const password = req.body.password;
+
+	User.findOne({ emailAddress: email }, (err, foundUser) => {
+		if (!foundUser) {
+			// user not registered
+			res.send({
+				message: "Username not registered.",
+				data: false,
+			});
+		} else {
+			// check password of found user if same as password in body
+			// use bcrypt.compareSync(plaintext password, hashed password)
+			const passwordMatch = bcrypt.compareSync(password, foundUser.password);
+			// returns true or false
+
+			if (passwordMatch) {
+				// email registered and correct password
+				res.send({
+					message: "Correct login credentials",
+					data: true,
+				});
+			} else {
+				// email registered but incorrect password
+				res.send({
+					message: "Incorrect password.",
+					data: false,
+				});
+			}
+		}
+	});
+};
 
 // Retrieve all users
 
