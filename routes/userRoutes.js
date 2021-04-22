@@ -16,8 +16,14 @@ const userController = require("../controllers/userController");
 
 router.post("/register", userController.register);
 
-// ***Check if user exists***
-router.get("/email-exists", userController.checkEmail);
+// ***Check if username already exists***
+router.post("/email-exists", userController.checkEmail);
+// router.post("/email-exists", (req, res) => {
+// 	console.log(req.body);
+// });
+
+// check if user is already registered
+router.post("/login", userController.login);
 
 // Retrieve all users
 // router.get("/userList", (req, res) => {

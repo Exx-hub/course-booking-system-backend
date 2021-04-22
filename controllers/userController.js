@@ -50,6 +50,9 @@ const checkEmail = (req, res) => {
 	});
 };
 
+// check if user is already registered
+const login = (req, res) => {};
+
 // Retrieve all users
 
 // Retrieve specific user by Id
@@ -61,4 +64,5 @@ const checkEmail = (req, res) => {
 module.exports = {
 	register,
 	checkEmail,
+	login,
 };
