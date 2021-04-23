@@ -1,5 +1,9 @@
-#Course Booking System using Node Express MongoDb
+## Client app of course booking system
 
-To use with backend server, replace fetch request root endpoint to
+---
 
-https://backup-capstone-vscode.herokuapp.com/
+`Created by: Alvin Acosta`
+
+`To use with backend server, replace fetch request root endpoint to:`
+
+`https://backup-capstone-vscode.herokuapp.com/`
