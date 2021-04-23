@@ -80,7 +80,7 @@ const login = (req, res) => {
 				// email registered and correct password
 				res.send({
 					data: true,
-					userDetails: updatedUser, // returns id of user
+					userDetails: updatedUser, // returns id of user to be used in client fetch request
 				});
 			} else {
 				// email registered but incorrect password
@@ -93,9 +93,10 @@ const login = (req, res) => {
 	});
 };
 
-// Retrieve all users
-
 // Retrieve specific user by Id
+const getUserDetails = (req, res) => {};
+
+// Retrieve all users
 
 // Update user details
 
@@ -105,4 +106,5 @@ module.exports = {
 	register,
 	checkEmail,
 	login,
+	getUserDetails,
 };
