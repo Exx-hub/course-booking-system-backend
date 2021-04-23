@@ -25,14 +25,12 @@ router.post("/email-exists", userController.checkEmail);
 // check if user is already registered
 router.post("/login", userController.login);
 
+// // Retrieve specific user by Id
+router.get("/details", userController.getUserDetails);
+
 // Retrieve all users
 // router.get("/userList", (req, res) => {
 // 	res.send("This is a list of all users!");
-// });
-
-// // Retrieve specific user by Id
-// router.get("/userList/:id", (req, res) => {
-// 	res.send("getting a user using a specific id!");
 // });
 
 // // Update user details
