@@ -57,11 +57,11 @@ const login = (req, res) => {
 	const email = req.body.emailAddress;
 	const password = req.body.password;
 
-	User.findOne({ emailAddress: email }, (err, foundUser) => {
+	User.findOne({ emailAddress: email }, "password", (err, foundUser) => {
 		if (!foundUser) {
 			// user not registered
 			res.send({
-				message: "Username not registered.",
+				userDetails: "Username not registered.",
 				data: false,
 			});
 		} else {
@@ -71,16 +71,22 @@ const login = (req, res) => {
 			// returns true or false
 
 			if (passwordMatch) {
+				// if correct password
+				let updatedUser = foundUser.toObject();
+				delete updatedUser.password;
+				// remove password from response, for security purposes.
+				// only id is needed anyway. so return id only in response
+
 				// email registered and correct password
 				res.send({
-					message: "Correct login credentials",
 					data: true,
+					userDetails: updatedUser, // returns id of user
 				});
 			} else {
 				// email registered but incorrect password
 				res.send({
-					message: "Incorrect password.",
 					data: false,
+					userDetails: "Incorrect password.",
 				});
 			}
 		}
