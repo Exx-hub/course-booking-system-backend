@@ -9,15 +9,11 @@ app.use(express.json());
 
 // Application routes
 const userRoutes = require("./routes/userRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
-/* Use Application routes
- * ---app.use(path,routeObject)---
- * take everything that has to do with '/api/users' put it in a separate folder
- * using the router object.
- * use userRoutes file to handle endpoints that start with /api/users
- */
-
+// Application routes
 app.use("/api/users", userRoutes);
+app.use("/api/courses", courseRoutes);
 
 // ENV VARIABLES
 const port = process.env.PORT || 3001;
