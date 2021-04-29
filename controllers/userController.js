@@ -112,8 +112,6 @@ const getUserDetails = (req, res) => {
 };
 
 const enrollCourse = (req, res) => {
-	// console.log(req.body);
-	// { userId: '608acabeb020df14244cb29b', courseName: 'Voolia' }
 	const { userId, courseName } = req.body;
 
 	User.findById(userId, (err, foundUser) => {
@@ -121,13 +119,23 @@ const enrollCourse = (req, res) => {
 		foundUser.enrollments.push({ courseName });
 
 		foundUser.save((err, savedUser) => {
-			res.send(savedUser);
+			if (err) return console.error(err);
+
+			Course.findOne({ name: courseName }, (err, foundCourse) => {
+				if (err) return console.error(err);
+				foundCourse.enrollees.push({
+					userId: userId,
+					lastName: savedUser.lastName,
+				});
+
+				foundCourse.save((err, savedCourse) => {
+					if (err) return console.error(err);
+
+					res.send(savedCourse);
+				});
+			});
 		});
 	});
-
-	// Course.findOne({ name: courseName }, (err, foundCourse) => {
-	// 	res.send(foundCourse);
-	// });
 };
 
 module.exports = {
@@ -137,3 +145,8 @@ module.exports = {
 	getUserDetails,
 	enrollCourse,
 };
+
+// client send coursename and userId of user logged in, server finds user with that
+// userId, adds the coursename to the enrollments array of that user. if successful
+// server then finds course with that courseName, and add that userId to that course's
+// enrollees array.

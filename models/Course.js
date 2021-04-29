@@ -9,7 +9,7 @@ const courseSchema = new mongoose.Schema({
 	enrollees: [
 		{
 			userId: { type: String },
-			lastname: { type: String },
+			lastName: { type: String },
 		},
 	],
 });
