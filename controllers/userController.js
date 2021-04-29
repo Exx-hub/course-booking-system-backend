@@ -95,7 +95,7 @@ const login = (req, res) => {
 
 // Retrieve specific user by Id
 const getUserDetails = (req, res) => {
-	console.log(req.query);
+	// console.log(req.query);
 	User.findById(req.query.id, "-password", (err, foundUser) => {
 		// again remove password before sending response for security purposes
 		// remove password using projectin in findbyid

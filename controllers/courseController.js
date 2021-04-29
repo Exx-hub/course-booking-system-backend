@@ -10,11 +10,23 @@ const Course = require("../models/Course");
 // };
 
 // convert to async/await instead of callbacks
-const getAllCourses = async (req, res) => {
-	const courses = await Course.find({});
-	res.send({ courses });
+// const getAllCourses = async (req, res) => {
+// 	const courses = await Course.find({});
+// 	res.send({ courses });
+// };
+
+const getCourses = async (req, res) => {
+	console.log(req.query);
+
+	if (req.query.id) {
+		const course = await Course.findById(req.query.id);
+		res.send({ course });
+	} else {
+		const courses = await Course.find({});
+		res.send({ courses });
+	}
 };
 
 module.exports = {
-	getAllCourses,
+	getCourses,
 };
