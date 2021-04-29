@@ -28,23 +28,7 @@ router.post("/login", userController.login);
 // // Retrieve specific user by Id
 router.get("/details", userController.getUserDetails);
 
-// Retrieve all users
-// router.get("/userList", (req, res) => {
-// 	res.send("This is a list of all users!");
-// });
-
-// // Update user details
-// router.put("/userList/:id", (req, res) => {
-// 	res.send("updating a specific user!");
-// });
-
-// // Delete an existing user
-// router.delete("/userList/:id", (req, res) => {
-// 	res.send("deleting this user!");
-// });
-
-// router.get("/", (req, res) => {
-// 	res.send("HELLO WORLD");
-// });
+// ENROLL logged in user to a course
+router.post("/enroll", userController.enrollCourse);
 
 module.exports = router; // export to get access outside of this module when imported

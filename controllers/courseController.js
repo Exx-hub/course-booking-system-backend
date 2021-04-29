@@ -15,6 +15,7 @@ const Course = require("../models/Course");
 // 	res.send({ courses });
 // };
 
+// combined getallcourses and getonecourse via id
 const getCourses = async (req, res) => {
 	console.log(req.query);
 

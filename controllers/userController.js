@@ -1,6 +1,14 @@
 const User = require("../models/User");
+const Course = require("../models/Course");
 
 const bcrypt = require("bcrypt"); // used to encrpyt data like passwords
+
+/*
+*
+*
+CHANGE FUNCTIONS TO ASYNC / AWAIT from callbacks
+*
+*/
 
 // CREATE A USER
 
@@ -103,15 +111,29 @@ const getUserDetails = (req, res) => {
 	});
 };
 
-// Retrieve all users
+const enrollCourse = (req, res) => {
+	// console.log(req.body);
+	// { userId: '608acabeb020df14244cb29b', courseName: 'Voolia' }
+	const { userId, courseName } = req.body;
 
-// Update user details
+	User.findById(userId, (err, foundUser) => {
+		if (err) return console.error(err);
+		foundUser.enrollments.push({ courseName });
 
-// Delete an existing user
+		foundUser.save((err, savedUser) => {
+			res.send(savedUser);
+		});
+	});
+
+	// Course.findOne({ name: courseName }, (err, foundCourse) => {
+	// 	res.send(foundCourse);
+	// });
+};
 
 module.exports = {
 	register,
 	checkEmail,
 	login,
 	getUserDetails,
+	enrollCourse,
 };
