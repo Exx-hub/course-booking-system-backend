@@ -1,5 +1,6 @@
 const Course = require("../models/Course");
 
+// callback way
 // const getAllCourses = (req, res) => {
 // 	Course.find({}, (err, courses) => {
 // 		if (err) console.error(err);
@@ -9,13 +10,7 @@ const Course = require("../models/Course");
 // 	});
 // };
 
-// convert to async/await instead of callbacks
-// const getAllCourses = async (req, res) => {
-// 	const courses = await Course.find({});
-// 	res.send({ courses });
-// };
-
-// combined getallcourses and getonecourse via id
+// combined getallcourses and getonecourse via id (async / await)
 const getCourses = async (req, res) => {
 	console.log(req.query);
 
