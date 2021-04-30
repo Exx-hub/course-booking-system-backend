@@ -111,6 +111,7 @@ const getUserDetails = (req, res) => {
 	});
 };
 
+// ENROLL a user to a course -- convert to async or promises to avoid cb hell
 const enrollCourse = (req, res) => {
 	const { userId, courseName } = req.body;
 
