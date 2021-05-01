@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Course = require("../models/Course");
 
 const bcrypt = require("bcrypt"); // used to encrpyt data like passwords
+const { update } = require("../models/Course");
 
 /*
 *
@@ -111,32 +112,62 @@ const getUserDetails = (req, res) => {
 	});
 };
 
+// ENROLL A USER -- using async / await
 // ENROLL a user to a course -- convert to async or promises to avoid cb hell
-const enrollCourse = (req, res) => {
-	const { userId, courseName } = req.body;
+// change coursename to courseId
+// const enrollCourse = (req, res) => {
+// 	const { userId, courseName } = req.body;
 
-	User.findById(userId, (err, foundUser) => {
-		if (err) return console.error(err);
-		foundUser.enrollments.push({ courseName });
+// 	User.findById(userId, (err, foundUser) => {
+// 		if (err) return console.error(err);
+// 		foundUser.enrollments.push({ courseName });
 
-		foundUser.save((err, savedUser) => {
-			if (err) return console.error(err);
+// 		foundUser.save((err, savedUser) => {
+// 			if (err) return console.error(err);
 
-			Course.findOne({ name: courseName }, (err, foundCourse) => {
-				if (err) return console.error(err);
-				foundCourse.enrollees.push({
-					userId: userId,
-					lastName: savedUser.lastName,
-				});
+// 			Course.findOne({ name: courseName }, (err, foundCourse) => {
+// 				if (err) return console.error(err);
+// 				foundCourse.enrollees.push({
+// 					userId: userId,
+// 					lastName: savedUser.lastName,
+// 				});
 
-				foundCourse.save((err, savedCourse) => {
-					if (err) return console.error(err);
+// 				foundCourse.save((err, savedCourse) => {
+// 					if (err) return console.error(err);
 
-					res.send(savedCourse);
-				});
-			});
+// 					res.send(savedCourse);
+// 				});
+// 			});
+// 		});
+// 	});
+// };
+
+// try adding try / catch block
+
+const enrollCourse = async (req, res) => {
+	const { userId, courseId } = req.body;
+
+	try {
+		const foundUser = await User.findById(userId);
+		const foundCourse = await Course.findById(courseId);
+
+		// // update found user, add course name to enrollments
+		foundUser.enrollments.push({ courseName: foundCourse.name });
+
+		const updatedUser = await foundUser.save(); //save updated user
+
+		// // update found course, add userId
+		foundCourse.enrollees.push(userId);
+
+		const updatedCourse = await foundCourse.save(); // save updated course
+
+		res.send({
+			message: "Enrolled successfully",
+			data: updatedCourse.name,
 		});
-	});
+	} catch (err) {
+		res.status(400).send("Error enrolling");
+	}
 };
 
 module.exports = {
@@ -151,3 +182,59 @@ module.exports = {
 // userId, adds the coursename to the enrollments array of that user. if successful
 // server then finds course with that courseName, and add that userId to that course's
 // enrollees array.
+
+// ENROLL A USER TO A COURSE -- using promises
+
+// module.exports.enroll = (userId, courseName) => {
+// 	return User.findById(userId).then((foundUser,err) => {
+// 			if(err) return console.error(err);
+//
+// 				foundUser.enrollments.push({courseName});
+//
+// 				return foundUser.save().then((savedUser,err) => {
+// 					if(err) return console.error(err);
+//
+// 					return Course.findOne({name: courseName}).then((course,err) => {
+// 						if(err) return console.error(err);
+//
+// 						course.enrollees.push({
+// 							userId: userId,
+// 							lastName: savedUser.lastName
+// 						});
+//
+// 						return course.save().then((savedCourse,err) => {
+// 							return err ? false : true;
+// 						})
+// 					})
+// 				 })
+//  			})
+// 		};
+
+// ENROLL A USER -- using callbacks
+
+// const enrollCourse = (req, res) => {
+// 	const { userId, courseName } = req.body;
+
+// 	User.findById(userId, (err, foundUser) => {
+// 		if (err) return console.error(err);
+// 		foundUser.enrollments.push({ courseName });
+
+// 		foundUser.save((err, savedUser) => {
+// 			if (err) return console.error(err);
+
+// 			Course.findOne({ name: courseName }, (err, foundCourse) => {
+// 				if (err) return console.error(err);
+// 				foundCourse.enrollees.push({
+// 					userId: userId,
+// 					lastName: savedUser.lastName,
+// 				});
+
+// 				foundCourse.save((err, savedCourse) => {
+// 					if (err) return console.error(err);
+
+// 					res.send(savedCourse);
+// 				});
+// 			});
+// 		});
+// 	});
+// };

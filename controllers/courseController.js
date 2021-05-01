@@ -10,7 +10,7 @@ const Course = require("../models/Course");
 // 	});
 // };
 
-// combined getallcourses and getonecourse via id (async / await)
+// combined getallcourses and getonecourse via id (async / await) need practice
 const getCourses = async (req, res) => {
 	console.log(req.query);
 

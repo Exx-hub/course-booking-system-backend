@@ -8,8 +8,8 @@ const courseSchema = new mongoose.Schema({
 	createdOn: { type: Date, default: new Date() },
 	enrollees: [
 		{
-			userId: { type: String },
-			lastName: { type: String },
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
 		},
 	],
 });
