@@ -15,7 +15,11 @@ const getCourses = async (req, res) => {
 	console.log(req.query);
 
 	if (req.query.id) {
-		const course = await Course.findById(req.query.id);
+		const course = await Course.findById(req.query.id).populate(
+			"enrollees",
+			"-password -enrollments -__v"
+		);
+		console.log(course);
 		res.send({ course });
 	} else {
 		const courses = await Course.find({});

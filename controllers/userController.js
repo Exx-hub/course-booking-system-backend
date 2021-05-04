@@ -112,38 +112,6 @@ const getUserDetails = (req, res) => {
 	});
 };
 
-// ENROLL A USER -- using async / await
-// ENROLL a user to a course -- convert to async or promises to avoid cb hell
-// change coursename to courseId
-// const enrollCourse = (req, res) => {
-// 	const { userId, courseName } = req.body;
-
-// 	User.findById(userId, (err, foundUser) => {
-// 		if (err) return console.error(err);
-// 		foundUser.enrollments.push({ courseName });
-
-// 		foundUser.save((err, savedUser) => {
-// 			if (err) return console.error(err);
-
-// 			Course.findOne({ name: courseName }, (err, foundCourse) => {
-// 				if (err) return console.error(err);
-// 				foundCourse.enrollees.push({
-// 					userId: userId,
-// 					lastName: savedUser.lastName,
-// 				});
-
-// 				foundCourse.save((err, savedCourse) => {
-// 					if (err) return console.error(err);
-
-// 					res.send(savedCourse);
-// 				});
-// 			});
-// 		});
-// 	});
-// };
-
-// try adding try / catch block
-
 const enrollCourse = async (req, res) => {
 	const { userId, courseId } = req.body;
 
