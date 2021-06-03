@@ -69,7 +69,7 @@ const login = (req, res) => {
 	const password = req.body.password;
 
 	User.findOne({ emailAddress: email }, "password firstName", (err, foundUser) => {
-		console.log(foundUser);
+		// console.log(foundUser);
 		if (!foundUser) {
 			// user not registered
 			res.send({message: "Username not registered."});
@@ -90,7 +90,7 @@ const login = (req, res) => {
 				res.send({
 					message: "Succesful login!",
 					token: createAccessToken(updatedUser._id),
-					user: updatedUser.firstName
+					userName: updatedUser.firstName,
 					// returns id of user to be used in client fetch request hidden in a jwt
 				});
 			} else {
@@ -113,7 +113,9 @@ const getUserDetails = (req, res) => {
 };
 
 const enrollCourse = async (req, res) => {
-	const { userId, courseId } = req.body;
+	const { courseId } = req.body;
+	const userId = req.user.userId
+
 
 	try {
 		const foundUser = await User.findById(userId);

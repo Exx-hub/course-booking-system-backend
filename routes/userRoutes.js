@@ -31,6 +31,6 @@ router.post("/login", userController.login);
 router.get("/details",verifyToken, userController.getUserDetails);
 
 // ENROLL logged in user to a course
-router.post("/enroll", userController.enrollCourse);
+router.post("/enroll", verifyToken, userController.enrollCourse);
 
 module.exports = router; // export to get access outside of this module when imported
