@@ -68,7 +68,8 @@ const login = (req, res) => {
 	const email = req.body.emailAddress;
 	const password = req.body.password;
 
-	User.findOne({ emailAddress: email }, "password", (err, foundUser) => {
+	User.findOne({ emailAddress: email }, "password firstName", (err, foundUser) => {
+		console.log(foundUser);
 		if (!foundUser) {
 			// user not registered
 			res.send({message: "Username not registered."});
