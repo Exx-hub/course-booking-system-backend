@@ -4,6 +4,8 @@ const Course = require("../models/Course");
 const bcrypt = require("bcrypt"); // used to encrpyt data like passwords
 const { update } = require("../models/Course");
 
+const {createAccessToken} = require("../middlewares/token");
+
 /*
 *
 *
@@ -69,10 +71,7 @@ const login = (req, res) => {
 	User.findOne({ emailAddress: email }, "password", (err, foundUser) => {
 		if (!foundUser) {
 			// user not registered
-			res.send({
-				userDetails: "Username not registered.",
-				data: false,
-			});
+			res.send({message: "Username not registered."});
 		} else {
 			// check password of found user if same as password in body
 			// use bcrypt.compareSync(plaintext password, hashed password)
@@ -88,15 +87,13 @@ const login = (req, res) => {
 
 				// email registered and correct password
 				res.send({
-					data: true,
-					userDetails: updatedUser, // returns id of user to be used in client fetch request
+					message: "Succesful login!",
+					token: createAccessToken(updatedUser._id)  
+					// returns id of user to be used in client fetch request hidden in a jwt
 				});
 			} else {
 				// email registered but incorrect password
-				res.send({
-					data: false,
-					userDetails: "Incorrect password.",
-				});
+				res.send({message: "Incorrect password."})
 			}
 		}
 	});
@@ -104,8 +101,9 @@ const login = (req, res) => {
 
 // Retrieve specific user by Id
 const getUserDetails = (req, res) => {
-	// console.log(req.query);
-	User.findById(req.query.id, "-password", (err, foundUser) => {
+	console.log(req.user.userId) // from verified token we can use id to fetch details
+
+	User.findById(req.user.userId, "-password", (err, foundUser) => {
 		// again remove password before sending response for security purposes
 		// remove password using projectin in findbyid
 		res.send({ userDetails: foundUser });

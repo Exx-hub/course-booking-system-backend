@@ -3,6 +3,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const {verifyToken} = require("../middlewares/verifyToken")
+
 // import controller export
 const userController = require("../controllers/userController");
 
@@ -26,7 +28,7 @@ router.post("/email-exists", userController.checkEmail);
 router.post("/login", userController.login);
 
 // // Retrieve specific user by Id
-router.get("/details", userController.getUserDetails);
+router.get("/details",verifyToken, userController.getUserDetails);
 
 // ENROLL logged in user to a course
 router.post("/enroll", userController.enrollCourse);
