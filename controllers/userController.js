@@ -84,8 +84,6 @@ const login = (req, res) => {
 				// remove password from response, for security purposes.
 				// only id is needed anyway. so return id only in response
 
-				
-
 				// email registered and correct password
 				res.send({
 					message: "Succesful login!",
@@ -102,8 +100,9 @@ const login = (req, res) => {
 
 // Retrieve specific user by Id
 const getUserDetails = (req, res) => {
-	// console.log(req.query);
-	User.findById(req.query.id, "-password", (err, foundUser) => {
+	console.log(req.user.userId) // from verified token we can use id to fetch details
+
+	User.findById(req.user.userId, "-password", (err, foundUser) => {
 		// again remove password before sending response for security purposes
 		// remove password using projectin in findbyid
 		res.send({ userDetails: foundUser });
