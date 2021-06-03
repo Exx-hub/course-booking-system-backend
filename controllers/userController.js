@@ -3,6 +3,8 @@ const Course = require("../models/Course");
 
 const bcrypt = require("bcrypt"); // used to encrpyt data like passwords
 
+const {createAccessToken} = require("../middlewares/token");
+
 /*
 *
 *
@@ -68,10 +70,7 @@ const login = (req, res) => {
 	User.findOne({ emailAddress: email }, "password", (err, foundUser) => {
 		if (!foundUser) {
 			// user not registered
-			res.send({
-				userDetails: "Username not registered.",
-				data: false,
-			});
+			res.send({message: "Username not registered."});
 		} else {
 			// check password of found user if same as password in body
 			// use bcrypt.compareSync(plaintext password, hashed password)
@@ -85,17 +84,17 @@ const login = (req, res) => {
 				// remove password from response, for security purposes.
 				// only id is needed anyway. so return id only in response
 
+				
+
 				// email registered and correct password
 				res.send({
-					data: true,
-					userDetails: updatedUser, // returns id of user to be used in client fetch request
+					message: "Succesful login!",
+					token: createAccessToken(updatedUser._id)  
+					// returns id of user to be used in client fetch request hidden in a jwt
 				});
 			} else {
 				// email registered but incorrect password
-				res.send({
-					data: false,
-					userDetails: "Incorrect password.",
-				});
+				res.send({message: "Incorrect password."})
 			}
 		}
 	});
