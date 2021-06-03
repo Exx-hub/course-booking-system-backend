@@ -88,7 +88,8 @@ const login = (req, res) => {
 				// email registered and correct password
 				res.send({
 					message: "Succesful login!",
-					token: createAccessToken(updatedUser._id)  
+					token: createAccessToken(updatedUser._id),
+					user: updatedUser.firstName
 					// returns id of user to be used in client fetch request hidden in a jwt
 				});
 			} else {
